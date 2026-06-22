@@ -1,0 +1,9 @@
+[
+  { "id": "profile",    "label": "Account & profile data" },
+  { "id": "activity",   "label": "Workout & activity history" },
+  { "id": "billing",    "label": "Payment & billing records" },
+  { "id": "health",     "label": "Health metrics (heart rate, weight)" },
+  { "id": "location",   "label": "Location / GPS history" },
+  { "id": "recipients", "label": "Who your data was shared with", "citation": "GDPR Art. 15(1)(c)" },
+  { "id": "retention",  "label": "How long they keep your data",  "citation": "GDPR Art. 15(1)(d)" }
+]
