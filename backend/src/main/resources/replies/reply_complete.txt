@@ -1,0 +1,29 @@
+Dear User,
+
+Thank you for your GDPR Article 15 data access request. We take your privacy rights seriously and are committed to full compliance. Please find below a complete response to each item in your request.
+
+ACCOUNT & PROFILE DATA:
+Full name: John Smith, Email: john.smith@email.com, Date of birth: 1990-05-12, Gender: Male, Account created: March 14, 2022, Last login: June 20, 2026.
+
+WORKOUT & ACTIVITY HISTORY:
+We are providing your complete workout history since account creation (March 2022 to present), covering 847 sessions including type, duration, distance, calories, and timestamps for each session. The full dataset is attached as a CSV file.
+
+PAYMENT & BILLING RECORDS:
+Complete transaction history from account creation to present, including all invoices, subscription changes, refunds, and payment methods used. Current plan: FitPulse Premium ($9.99/month). Full billing history is attached as a PDF.
+
+HEALTH METRICS:
+All heart rate data, weight entries, sleep tracking, and biometric measurements recorded since account creation are included in the attached file. This covers the full history with no date restrictions.
+
+LOCATION & GPS HISTORY:
+All GPS route data, location check-ins, and map activity from your sessions since account creation are included in the attached file. This includes start/end coordinates and route traces for all outdoor activities.
+
+THIRD-PARTY DATA SHARING (GDPR Art. 15(1)(c)):
+Your data has been shared with the following third parties: (1) Stripe Inc. — payment processing; (2) Amazon Web Services — cloud infrastructure and data storage; (3) Mixpanel Inc. — anonymous analytics. No data has been sold or shared with advertisers.
+
+DATA RETENTION POLICY (GDPR Art. 15(1)(d)):
+Account and profile data: retained for the duration of your account plus 2 years after deletion. Activity and health data: retained for 5 years. Payment records: retained for 7 years as required by financial regulations. Location data: retained for 1 year. You may request deletion of any category at any time, subject to legal retention requirements.
+
+We trust this response fully addresses your request. Please contact privacy@fitpulse.example if you require any clarification.
+
+Kind regards,
+FitPulse Privacy Team

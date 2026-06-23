@@ -1,0 +1,20 @@
+Dear User,
+
+Thank you for your data access request. We have reviewed your request and are pleased to provide the following information.
+
+ACCOUNT & PROFILE DATA:
+Your account was created on March 14, 2022. We hold the following profile information: full name (John Smith), email address (john.smith@email.com), date of birth (1990-05-12), and gender (Male).
+
+WORKOUT & ACTIVITY HISTORY:
+We have attached a summary of your workout history for the past 12 months. This includes 247 recorded sessions covering running, cycling, and strength training activities.
+
+PAYMENT & BILLING RECORDS:
+Your current subscription is the FitPulse Premium plan at $9.99/month. Your last payment of $9.99 was processed on June 1, 2026. Previous invoices are available in your account dashboard.
+
+HEALTH METRICS:
+We hold heart rate data from your last 30 days of activity. Weight entries recorded in the app for the past 30 days are also included in the attached file.
+
+Please note that we are unable to provide certain historical data as it falls outside our standard data retention window. If you have further questions, please contact our privacy team.
+
+Kind regards,
+FitPulse Privacy Team
