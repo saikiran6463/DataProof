@@ -13,9 +13,12 @@ import java.util.Map;
 public class RequestController {
 
     private final RequestService requestService;
+    private final VerificationService verificationService;
 
-    public RequestController(RequestService requestService) {
+    public RequestController(RequestService requestService,
+                             VerificationService verificationService) {
         this.requestService = requestService;
+        this.verificationService = verificationService;
     }
 
     @PostMapping
@@ -26,5 +29,11 @@ public class RequestController {
     @PostMapping("/{id}/send")
     public ResponseEntity<Map<String, Object>> send(@PathVariable String id) {
         return ResponseEntity.ok(requestService.sendRequest(id));
+    }
+
+    @PostMapping("/{id}/verify")
+    public ResponseEntity<Map<String, Object>> verify(@PathVariable String id,
+                                                      @RequestBody VerifyRequestBody body) {
+        return ResponseEntity.ok(verificationService.verify(id, body.getSeededReplyId()));
     }
 }

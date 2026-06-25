@@ -101,14 +101,14 @@ Keep it the **simplest thing that fulfills the contract.** Depth goes into Step 
 
 ## Progress checklist
 
-- [ ] 1 — skeleton + health
-- [ ] 2 — entity + repo
-- [ ] 3 — llm client (bedrock converse)
-- [ ] 4 — rules base
-- [ ] 5 — POST /requests
-- [ ] 6 — POST /send
-- [ ] 7 — seed replies
-- [ ] 8 — verification engine ★
-- [ ] 9 — harden verification
+- [x] 1 — skeleton + health
+- [x] 2 — entity + repo
+- [x] 3 — llm client (bedrock converse)
+- [x] 4 — rules base
+- [x] 5 — POST /requests
+- [x] 6 — POST /send
+- [x] 7 — seed replies
+- [x] 8 — verification engine ★
+- [x] 9 — harden verification
 
 **Demo-critical path:** steps 1–8 must work end-to-end. Step 9 makes it stage-safe. Everything else is optional.

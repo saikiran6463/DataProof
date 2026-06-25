@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.bedrockruntime.model.ContentBlock;
 import software.amazon.awssdk.services.bedrockruntime.model.ConversationRole;
 import software.amazon.awssdk.services.bedrockruntime.model.ConverseRequest;
 import software.amazon.awssdk.services.bedrockruntime.model.ConverseResponse;
+import software.amazon.awssdk.services.bedrockruntime.model.InferenceConfiguration;
 import software.amazon.awssdk.services.bedrockruntime.model.Message;
 
 /** Calls AWS Bedrock Converse API; auth comes from the standard AWS credential chain. */
@@ -36,6 +37,9 @@ public class BedrockLlmClient implements LlmClient {
                 .messages(Message.builder()
                         .role(ConversationRole.USER)
                         .content(ContentBlock.fromText(prompt))
+                        .build())
+                .inferenceConfig(InferenceConfiguration.builder()
+                        .temperature(0.0f)
                         .build())
                 .build();
 
