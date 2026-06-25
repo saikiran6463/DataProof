@@ -4,7 +4,7 @@ import com.dataproof.llm.LlmClient;
 import com.dataproof.model.Request;
 import com.dataproof.model.RequestStatus;
 import com.dataproof.repository.RequestRepository;
-import com.dataproof.seed.SeedReplyLoader;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -21,29 +21,25 @@ public class VerificationService {
     private static final Logger log = LoggerFactory.getLogger(VerificationService.class);
 
     private final RequestRepository requestRepository;
-    private final SeedReplyLoader seedReplyLoader;
     private final LlmClient llmClient;
     private final ObjectMapper objectMapper;
     private final RequestService requestService;
 
     public VerificationService(RequestRepository requestRepository,
-                                SeedReplyLoader seedReplyLoader,
                                 LlmClient llmClient,
                                 ObjectMapper objectMapper,
                                 RequestService requestService) {
         this.requestRepository = requestRepository;
-        this.seedReplyLoader = seedReplyLoader;
         this.llmClient = llmClient;
         this.objectMapper = objectMapper;
         this.requestService = requestService;
     }
 
-    public Map<String, Object> verify(String requestId, String seededReplyId) {
+    public Map<String, Object> verify(String requestId, String replyText) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request not found: " + requestId));
 
         List<Map<String, String>> obligations = requestService.getObligationsForRequest(request);
-        String replyText = seedReplyLoader.loadReply(seededReplyId);
 
         String prompt = buildVerifyPrompt(obligations, replyText);
         Map<String, Object> parsed = callWithRetry(prompt);
