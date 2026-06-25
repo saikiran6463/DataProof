@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-type Goal = 'ACCESS' | 'DELETE' | '';
+type Goal = 'ACCESS' | '';
 
 export default function NewRequestPage() {
   const [company, setCompany] = useState('');
@@ -181,23 +181,12 @@ export default function NewRequestPage() {
             </button>
             <button
               type="button"
-              onClick={() => setGoal('DELETE')}
-              className={`relative flex flex-col items-center gap-2 rounded-xl border-2 p-5 transition-all duration-200 ${
-                goal === 'DELETE'
-                  ? 'border-red-500 bg-red-50 ring-4 ring-red-500/10'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
-              }`}
+              disabled
+              className="relative flex flex-col items-center gap-2 rounded-xl border-2 p-5 border-gray-200 bg-gray-50 opacity-40 cursor-not-allowed"
             >
-              {goal === 'DELETE' && (
-                <div className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-              )}
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-xl">🗑️</div>
-              <span className={`text-sm font-semibold ${goal === 'DELETE' ? 'text-red-700' : 'text-gray-700'}`}>
-                Delete my data
-              </span>
-              <span className="text-xs text-gray-400">Right to Erasure</span>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-xl">🗑️</div>
+              <span className="text-sm font-semibold text-gray-400">Delete my data</span>
+              <span className="text-xs text-gray-300">Coming soon</span>
             </button>
           </div>
         </div>

@@ -48,98 +48,79 @@ export default function VerifyPage() {
   }
 
   if (report) {
-    const scoreColor =
-      report.completenessScore >= 80
-        ? 'text-green-600'
-        : report.completenessScore >= 50
-        ? 'text-amber-600'
-        : 'text-red-600';
+    const score: number = report.completeness;
+    const verdict: string = report.verdict;
 
-    const scoreBg =
-      report.completenessScore >= 80
-        ? 'from-green-50 to-emerald-50 border-green-200'
-        : report.completenessScore >= 50
-        ? 'from-amber-50 to-yellow-50 border-amber-200'
-        : 'from-red-50 to-rose-50 border-red-200';
+    const scoreColor = score >= 80 ? 'text-green-600' : score >= 50 ? 'text-amber-600' : 'text-red-600';
+    const scoreBg = score >= 80
+      ? 'from-green-50 to-emerald-50 border-green-200'
+      : score >= 50
+      ? 'from-amber-50 to-yellow-50 border-amber-200'
+      : 'from-red-50 to-rose-50 border-red-200';
+
+    const statusStyle: Record<string, { badge: string; dot: string }> = {
+      provided: { badge: 'bg-green-100 text-green-700', dot: 'bg-green-500' },
+      unclear:  { badge: 'bg-amber-100 text-amber-700', dot: 'bg-amber-400' },
+      missing:  { badge: 'bg-red-100 text-red-700',     dot: 'bg-red-500'   },
+    };
 
     return (
       <div className="mx-auto max-w-2xl px-6 py-12 animate-fade-in">
         <div className="mb-8 text-center">
           <h2 className="text-2xl font-bold text-gray-900">Compliance Report</h2>
-          <p className="mt-2 text-gray-500">Here's how well the company responded to your request.</p>
+          <p className="mt-2 text-gray-500">{report.summary}</p>
         </div>
 
         {/* Score Card */}
         <div className={`rounded-2xl border-2 bg-gradient-to-br ${scoreBg} p-8 text-center mb-8`}>
-          <div className={`text-6xl font-extrabold ${scoreColor}`}>
-            {report.completenessScore}%
-          </div>
+          <div className={`text-6xl font-extrabold ${scoreColor}`}>{score}%</div>
           <p className="mt-2 text-sm font-medium text-gray-600">Completeness Score</p>
-          <p className="mt-1 text-xs text-gray-400">
-            How much of what you were legally owed was actually provided
-          </p>
+          <span className={`mt-3 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${
+            verdict === 'complete' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+          }`}>
+            {verdict}
+          </span>
         </div>
 
-        <div className="space-y-5">
-          {/* Missing items */}
-          {report.missingItems?.length > 0 && (
-            <div className="card border-red-100 bg-red-50/30">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-100">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+        {/* Per-obligation checks */}
+        <div className="card mb-5">
+          <h3 className="font-semibold text-gray-900 mb-4">Obligation Breakdown</h3>
+          <div className="space-y-4">
+            {report.checks?.map((check: any) => {
+              const style = statusStyle[check.status] ?? statusStyle.missing;
+              return (
+                <div key={check.id} className="flex items-start gap-3">
+                  <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${style.dot}`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-medium text-gray-900">{check.obligation}</span>
+                      <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${style.badge}`}>
+                        {check.status}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-xs text-gray-500">{check.note}</p>
+                    {check.citation && (
+                      <p className="mt-0.5 text-xs text-blue-600 font-medium">{check.citation}</p>
+                    )}
+                  </div>
                 </div>
-                <h3 className="font-semibold text-red-800">Missing or Incomplete</h3>
-                <span className="ml-auto badge bg-red-100 text-red-700">{report.missingItems.length}</span>
-              </div>
-              <ul className="space-y-2.5">
-                {report.missingItems.map((item: string, i: number) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Fulfilled items */}
-          {report.fulfilledItems?.length > 0 && (
-            <div className="card border-green-100 bg-green-50/30">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                </div>
-                <h3 className="font-semibold text-green-800">Properly Provided</h3>
-                <span className="ml-auto badge bg-green-100 text-green-700">{report.fulfilledItems.length}</span>
-              </div>
-              <ul className="space-y-2.5">
-                {report.fulfilledItems.map((item: string, i: number) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Summary */}
-          <div className="card">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              </div>
-              <h3 className="font-semibold text-gray-900">Plain-Language Summary</h3>
-            </div>
-            <p className="text-sm leading-relaxed text-gray-600 whitespace-pre-wrap">
-              {report.summary}
-            </p>
+              );
+            })}
           </div>
         </div>
+
+        {/* Recommended next step */}
+        {report.recommendedNextStep && (
+          <div className="card border-blue-100 bg-blue-50/30">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 className="font-semibold text-gray-900">Recommended Next Step</h3>
+            </div>
+            <p className="text-sm leading-relaxed text-gray-600">{report.recommendedNextStep}</p>
+          </div>
+        )}
       </div>
     );
   }

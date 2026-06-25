@@ -34,15 +34,16 @@ public class RequestService {
     }
 
     public Map<String, Object> createRequest(CreateRequestBody body) {
-        String law = pickLaw(body.getJurisdiction());
+        String jurisdiction = body.getJurisdiction() != null ? body.getJurisdiction() : "EU";
+        String law = pickLaw(jurisdiction);
         List<Map<String, String>> obligations = rulesLoader.loadGdprAccessObligations();
 
         String draft = llmClient.complete(buildDraftPrompt(body, obligations));
 
         Request request = new Request();
-        request.setCompany(body.getCompany());
+        request.setCompany(body.getCompanyName());
         request.setGoal(body.getGoal());
-        request.setJurisdiction(body.getJurisdiction());
+        request.setJurisdiction(jurisdiction);
         request.setLaw(law);
         request.setContact("privacy@fitpulse.example");
         request.setDeadlineDays(30);
@@ -57,14 +58,19 @@ public class RequestService {
 
         requestRepository.save(request);
 
+        List<String> rights = obligations.stream()
+                .map(o -> o.get("label"))
+                .collect(Collectors.toList());
+
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put("requestId", request.getId());
-        response.put("law", law);
-        response.put("contact", request.getContact());
+        response.put("id", request.getId());
+        response.put("companyName", request.getCompany());
+        response.put("applicableLaw", law);
+        response.put("contactInfo", request.getContact());
         response.put("deadlineDays", 30);
         response.put("status", "draft");
-        response.put("obligations", obligations);
-        response.put("draftRequest", draft);
+        response.put("rights", rights);
+        response.put("draftLetter", draft);
         return response;
     }
 
@@ -116,6 +122,6 @@ public class RequestService {
                 - Sign off as "A concerned user"
                 - Return only the email body, no subject line
                 """,
-                body.getCompany(), obligationList, body.getCompany());
+                body.getCompanyName(), obligationList, body.getCompanyName());
     }
 }
